@@ -20,12 +20,7 @@ const HeroBanner = () => {
           and more. Handpicked with love for tiny humans.
         </p>
         <div className="mt-6 flex flex-wrap items-center gap-3">
-          <a
-            href="/products"
-            className="px-5 py-2 rounded-full bg-primary text-white text-sm font-semibold shadow-sm"
-          >
-            Shop Baby Essentials
-          </a>
+          
           <NotificationButton />
         </div>
         <p className="mt-3 text-xs text-gray-500">
