@@ -25,9 +25,11 @@ connectDB();
 // Middleware setup
 app.use(express.json());
 app.use(cookieParser());
+// ⭐ FIXED CORS ⭐
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: ["https://assbaby.onrender.com"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
@@ -58,5 +60,10 @@ app.use(notFound);
 app.use(errorHandler);
 
 // Start server using Render provided PORT
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server started on PORT: ${PORT}`));
+
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
