@@ -8,7 +8,6 @@ import path from "path";
 // Load env vars
 dotenv.config();
 
-// Import local modules (you will create these)
 import { connectDB } from "./db/connectDB.js";
 import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
@@ -20,28 +19,26 @@ import { notFound, errorHandler } from "./middleware/errorHandler.js";
 const app = express();
 
 // Connect Database
-connectDB();
+await connectDB();
 
-// Middleware setup
+// Middlewares
 app.use(express.json());
 app.use(cookieParser());
+app.use(morgan("dev"));
+app.use(cookieParser());
+
 // ⭐ FIXED CORS ⭐
 app.use(
   cors({
-    origin: ["https://assbaby.onrender.com"],
+    origin: process.env.CLIENT_URL,
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
 
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
-
-// Static folder for images/icons/uploads
+// Static file serve
 const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, "/client/dist"))); // if serving frontend from backend
-app.use("/uploads", express.static(path.join(__dirname, "/server/uploads"))); // product images if uploaded
+app.use("/uploads", express.static(path.join(__dirname, "server/uploads")));
 
 // Root route
 app.get("/", (_req, res) => {
@@ -55,15 +52,10 @@ app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/orders", orderRoutes);
 
-// Error handling middleware (must be last)
+// Error Middlewares (must be last)
 app.use(notFound);
 app.use(errorHandler);
 
-// Start server using Render provided PORT
-
+// Start Render Server
 const PORT = process.env.PORT || 5000;
-
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`🚀 Server running on PORT ${PORT}`));

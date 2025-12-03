@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: babybliss-server
+    env: node
+    plan: free
+    branch: main
+    region: oregon
+    envVars:
+      - key: MONGO_URI
+        value: "mongodb+srv://anuruddhsingh7234_db_user:Moni7234@cluster0.6ct9yf7.mongodb.net/portfolio?retryWrites=true&w=majority"
+      - key: JWT_SECRET
+        value: supersecretkey123
+      - key: PORT
+        value: 5000
+
+  - type: static_site
+    name: babybliss-client
+    branch: main
+    buildCommand:  npm install && npm run build
+    publishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://assbabes.onrender.com/api
+      - key: REACT_APP_API_URL
+        value: https://assbabes.onrender.com/api
