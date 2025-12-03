@@ -30,7 +30,7 @@ app.use(cookieParser());
 // ⭐ FIXED CORS ⭐
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: ["https://assbaby.onrender.com"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
