@@ -1,0 +1,32 @@
+services:
+  # Backend Service (Node + MongoDB)
+  - type: web
+    name: babybliss-server
+    env: node
+    plan: free
+    region: oregon
+    branch: main
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: CLIENT_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: NODE_ENV
+        sync: false
+
+  # Frontend Service (React PWA)
+  - type: web
+    name: babybliss-client
+    env: static
+    plan: free
+    region: oregon
+    branch: main
+    rootDir: client
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
