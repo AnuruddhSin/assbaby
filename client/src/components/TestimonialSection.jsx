@@ -6,7 +6,7 @@ const testimonials = [
     text: "BabyBliss makes it so easy to find safe products for my little one!"
   },
   {
-    name: "Mia’s Dad",
+    name: "Siya’s Dad",
     text: "Love the clean design and curated baby essentials. Feels trustworthy."
   }
 ];
