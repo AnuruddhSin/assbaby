@@ -5,7 +5,6 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import path from "path";
 
-// Load env vars
 dotenv.config();
 
 import { connectDB } from "./db/connectDB.js";
@@ -18,16 +17,19 @@ import { notFound, errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
 
-// Connect Database
+// ⭐ MUST FREE PORT BIND FIRST ⭐
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`🚀 Server live on PORT ${PORT}`));
+
+// Then connect DB
 await connectDB();
 
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(morgan("dev"));
+app.use(cookieParser());
 app.use(cookieParser());
 
-// ⭐ FIXED CORS ⭐
 app.use(
   cors({
     origin: process.env.CLIENT_URL,
@@ -36,26 +38,26 @@ app.use(
   })
 );
 
-// Static file serve
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
+
+// Static Serve
 const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "server/uploads")));
 
-// Root route
+// Root
 app.get("/", (_req, res) => {
   res.send("✅ BabyBliss API is running");
 });
 
-// API Routes
+// API routes
 app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/orders", orderRoutes);
 
-// Error Middlewares (must be last)
+// Errors
 app.use(notFound);
 app.use(errorHandler);
-
-// Start Render Server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on PORT ${PORT}`));
