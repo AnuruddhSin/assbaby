@@ -7,7 +7,7 @@ services:
     region: oregon
     envVars:
       - key: MONGO_URI
-        value: "mongodb+srv://anuruddhsingh7234_db_user:Moni7234@cluster0.6ct9yf7.mongodb.net/portfolio?retryWrites=true&w=majority"
+        value: "mongodb+srv://anuruddhlu7234_db_user:QEemrq15d8CuhYCZ@cluster0.jfcxyd0.mongodb.net/babybliss?retryWrites=true&w=majority"
       - key: JWT_SECRET
         value: supersecretkey123
       - key: PORT

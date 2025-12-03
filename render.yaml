@@ -1,32 +1,25 @@
 services:
-  # Backend Service (Node + MongoDB)
   - type: web
     name: babybliss-server
     env: node
     plan: free
-    region: oregon
     branch: main
-    rootDir: server
-    buildCommand: npm install
-    startCommand: npm start
-    healthCheckPath: /api/health
+    region: oregon
     envVars:
       - key: MONGO_URI
-        sync: false
-      - key: CLIENT_URL
-        sync: false
+        value: "mongodb+srv://anuruddhlu7234_db_user:QEemrq15d8CuhYCZ@cluster0.jfcxyd0.mongodb.net/babybliss?retryWrites=true&w=majority"
       - key: JWT_SECRET
-        sync: false
-      - key: NODE_ENV
-        sync: false
+        value: supersecretkey123
+      - key: PORT
+        value: 5000
 
-  # Frontend Service (React PWA)
-  - type: web
+  - type: static_site
     name: babybliss-client
-    env: static
-    plan: free
-    region: oregon
     branch: main
-    rootDir: client
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
+    buildCommand:  npm install && npm run build
+    publishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://assbabes.onrender.com/api
+      - key: REACT_APP_API_URL
+        value: https://assbabes.onrender.com/api
